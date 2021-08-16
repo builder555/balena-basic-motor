@@ -5,37 +5,37 @@ class DeviceMQTTSubWrapper:
     def __init__(self, device, topic, start_msg=True, stop_msg=False):
         try:
             self.__is_connected = False
-            self.topic = topic
-            self.device = device
-            self.start_msg = start_msg
-            self.stop_msg = stop_msg
-            self.client = mqtt.Client()
-            self.client.on_connect = self.on_connect
-            self.client.on_disconnect = self.on_disconnect
-            self.client.on_message = self.process_message
-            self.client.connect('mqtt', 1883, keepalive=600)
-            self.client.loop_start()
+            self.__topic = topic
+            self.__device = device
+            self.__start_msg = start_msg
+            self.__stop_msg = stop_msg
+            self.__client = mqtt.Client()
+            self.__client.on_connect = self.__on_connect
+            self.__client.on_disconnect = self.__on_disconnect
+            self.__client.on_message = self.__process_message
+            self.__client.connect('mqtt', 1883, keepalive=600)
+            self.__client.loop_start()
             self.__is_connected = False
         except:
             raise Exception('MQTT broker is unreachable')
 
-    def on_disconnect(self, *a, **kw):
+    def __on_disconnect(self, *a, **kw):
         self.__is_connected = False
 
-    def on_connect(self, *a, **kw):
+    def __on_connect(self, *a, **kw):
         self.__is_connected = True
-        self.client.subscribe(self.topic)
+        self.__client.subscribe(self.__topic)
 
-    def process_message(self, client, userdata, msg):
+    def __process_message(self, client, userdata, msg):
         payload = msg.payload
-        if json.loads(payload) == self.start_msg:
-            self.device.start()
-        if json.loads(payload) == self.stop_msg:
-            self.device.stop()
+        if json.loads(payload) == self.__start_msg:
+            self.__device.start()
+        if json.loads(payload) == self.__stop_msg:
+            self.__device.stop()
 
     def __del__(self):
-        self.client.disconnect()
-        self.client.loop_stop()
+        self.__client.disconnect()
+        self.__client.loop_stop()
 
     @property
     def is_connected(self):
