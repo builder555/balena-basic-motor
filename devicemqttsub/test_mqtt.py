@@ -17,6 +17,12 @@ class TestWrapper:
         fake_mqtt_client.on_connect()
         assert mqtt.is_connected
 
+    def test_can_disconnect_from_mqtt_server(self, fake_device, fake_mqtt_client):
+        mqtt = DeviceSub(device=fake_device, topic='remote-sensor', start_msg=15, stop_msg=-10)
+        fake_mqtt_client.on_connect()
+        fake_mqtt_client.on_disconnect()
+        assert not mqtt.is_connected
+
     def test_STARTS_device_when_receives_START_signal(self, fake_device, fake_mqtt_client):
         DeviceSub(device=fake_device, topic='remote-sensor', start_msg=15, stop_msg=-10)
         fake_mqtt_client.on_message(None, None, FakeMQTTMessage('15'))

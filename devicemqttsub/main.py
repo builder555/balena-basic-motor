@@ -11,6 +11,7 @@ class DeviceMQTTSubWrapper:
             self.stop_msg = stop_msg
             self.client = mqtt.Client()
             self.client.on_connect = self.on_connect
+            self.client.on_disconnect = self.on_disconnect
             self.client.on_message = self.process_message
             self.client.connect('mqtt', 1883, keepalive=600)
             self.client.loop_start()
