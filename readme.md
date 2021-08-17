@@ -4,7 +4,7 @@ Gets input from MQTT and either turns on or off a specific pin on a device.
 
 Currently supports only Balena Fin and Raspberry Pi devices.
 
-_Installation_
+_Usage as a block_
 
 Add the following to your `docker-compose.yaml`:
 
@@ -27,7 +27,7 @@ $ pipenv shell
 $ pytest -vs
 ```
 
-_Usage_
+_Standalone usage_
 
 Device pin is activated when the block receives appropriate MQTT message.
 
