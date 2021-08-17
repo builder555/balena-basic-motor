@@ -9,10 +9,14 @@ _Installation_
 Add the following to your `docker-compose.yaml`:
 
 ```yaml
-  basic-motor:
+  motor:
     privileged: true
     build: ./basic-motor
     restart: always
+    environment: 
+      - input=logic_1 # name of MQTT topic to subscribe
+      - pin=27 # physical pin to use on the device
+
 ```
 
 _Tests_
