@@ -81,7 +81,6 @@ class TestPiOutputTimeouts:
         assert fake_pin.on.call_count == 1
         fake_timer.forward(seconds=5)
         motor.stop()
-        fake_thread.wait_to_finish()
         motor.start()
         assert fake_pin.on.call_count == 2
 

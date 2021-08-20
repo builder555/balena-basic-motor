@@ -33,7 +33,7 @@ class MotorAdaptor(AbstractMotor):
         self.__stop_time = time()
         self.__motor.off()
         self.__is_motor_on = False
-    
+
     def __monitor_motor(self):
         while self.__is_motor_on:
             sleep(0.1)
@@ -47,8 +47,8 @@ class MotorAdaptor(AbstractMotor):
 
     @property
     def __is_cooling_down(self):
-        if not self.__max_runtime_reached:
-            return False
         cooldown_time_is_set = self.__cooldown_time > 0
+        if not (cooldown_time_is_set and self.__max_runtime_reached):
+            return False
         reached_cooldown_limit = (time() - self.__stop_time) >= self.__cooldown_time
-        return cooldown_time_is_set and not reached_cooldown_limit
+        return not reached_cooldown_limit
