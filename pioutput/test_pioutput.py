@@ -48,38 +48,38 @@ class TestPiOutputAdaptor:
 @pytest.mark.usefixtures('patch_time')
 @pytest.mark.usefixtures('patch_sleep')
 class TestPiOutputTimeouts:
-    def test_can_limit_maximum_continuous_motor_run(self, fake_pin, fake_timer, fake_thread):
+    def test_can_limit_maximum_continuous_motor_run(self, fake_pin, fake_time, fake_thread):
         motor = MotorAdaptor(1, max_runtime=10)
         motor.start()
         assert not fake_pin.off.called
-        fake_timer.forward(seconds=15)
+        fake_time.forward(seconds=15)
         fake_thread.wait_to_finish()
         assert fake_pin.off.called
 
-    def test_enforce_cooldown_period_after_maxing_out_runtime(self, fake_pin, fake_timer, fake_thread):
+    def test_enforce_cooldown_period_after_maxing_out_runtime(self, fake_pin, fake_time, fake_thread):
         motor = MotorAdaptor(1, max_runtime=10, cooldown=30)
         motor.start()
         assert fake_pin.on.call_count == 1
-        fake_timer.forward(seconds=20)
-        fake_thread.wait_to_finish()
+        fake_time.forward(seconds=20)
+        # assert fake_pin.off.called
         motor.start()
         assert fake_pin.on.call_count == 1
     
-    def test_can_restart_after_cooldown(self, fake_pin, fake_timer, fake_thread):
+    def test_can_restart_after_cooldown(self, fake_pin, fake_time, fake_thread):
         motor = MotorAdaptor(1, max_runtime=10, cooldown=30)
         motor.start()
         assert fake_pin.on.call_count == 1
-        fake_timer.forward(seconds=20)
+        fake_time.forward(seconds=20)
         fake_thread.wait_to_finish()
-        fake_timer.forward(seconds=60)
+        fake_time.forward(seconds=60)
         motor.start()
         assert fake_pin.on.call_count == 2
     
-    def test_do_not_enforce_cooldown_if_ran_for_a_short_time(self, fake_pin, fake_timer, fake_thread):
+    def test_do_not_enforce_cooldown_if_ran_for_a_short_time(self, fake_pin, fake_time, fake_thread):
         motor = MotorAdaptor(1, max_runtime=10, cooldown=30)
         motor.start()
         assert fake_pin.on.call_count == 1
-        fake_timer.forward(seconds=5)
+        fake_time.forward(seconds=5)
         motor.stop()
         motor.start()
         assert fake_pin.on.call_count == 2
@@ -95,8 +95,8 @@ def patch_thread(fake_thread):
         yield
 
 @pytest.fixture
-def patch_time(fake_timer):
-    with patch('pioutput.main.time', new=fake_timer):
+def patch_time(fake_time):
+    with patch('pioutput.main.time', new=fake_time):
         yield
 
 @pytest.fixture
@@ -119,12 +119,12 @@ def motor(fake_pin):
         yield MotorAdaptor(12345)
 
 @pytest.fixture
-def fake_timer():
-    timer=MagicMock(return_value=500)
+def fake_time():
+    f_time = MagicMock(return_value=500)
     def forward(seconds):
-        timer.return_value += seconds
-    timer.forward = forward
-    yield timer
+        f_time.return_value += seconds
+    f_time.forward = forward
+    yield f_time
 
 @pytest.fixture
 def fake_thread():

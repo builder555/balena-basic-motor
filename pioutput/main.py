@@ -50,5 +50,5 @@ class MotorAdaptor(AbstractMotor):
         cooldown_time_is_set = self.__cooldown_time > 0
         if not (cooldown_time_is_set and self.__max_runtime_reached):
             return False
-        reached_cooldown_limit = (time() - self.__stop_time) >= self.__cooldown_time
-        return not reached_cooldown_limit
+        still_cooling_down = (time() - self.__stop_time) < self.__cooldown_time
+        return still_cooling_down

@@ -14,25 +14,25 @@ Add the following to your `docker-compose.yaml`:
     build: ./basic-motor
     restart: always
     environment: 
-      - input=logic_1
-      - pin=27
+      - INPUT=logic_1
+      - PIN=27
 ```
 
-The pin is set high when a message with payload "1" comes on `input` topic and set low, when payload "0" comes in.
+The pin is set high when a message with payload "1" comes on `INPUT` topic and set low, when payload "0" comes in.
 
 ___Available variables___
 
-- `input`: name of MQTT topic to trigger the pin
-- `pin`: physical pin to use on the device
-- `max_on_time`: maximum time, in seconds, to keep the pin on continuously
-- `cooldown`: how long, in seconds, to keep the pin off after max_on_time is reached
+- `INPUT`: name of MQTT topic to trigger the pin
+- `PIN`: physical pin to use on the device
+- `MAX_ON_TIME`: maximum time, in seconds, to keep the pin on continuously
+- `COOLDOWN`: how long, in seconds, to keep the pin off after max_on_time is reached
 
 ___Environment variables defaults___
 
-- `input`: "_input_"
-- `pin`: 27
-- `max_on_time`: 30
-- `cooldown`: 30
+- `INPUT`: "input"
+- `PIN`: 27
+- `MAX_ON_TIME`: 30
+- `COOLDOWN`: 30
 
 ___Tests___
 
