@@ -1,0 +1,23 @@
+name: basic-motor
+description: >-
+  controls a physical pin with MQTT signals.
+  logo image by [naim](https://thenounproject.com/naim.solis/)
+version: 0.1.0
+type: sw.application
+assets:
+  repository:
+    type: blob.asset
+    data:
+      url: 'https://github.com/builder555/balena-basic-motor'
+  logo:
+    type: blob.asset
+    data:
+      url: 'https://raw.githubusercontent.com/builder555/balena-basic-motor/master/logo.png'
+data:
+  defaultDeviceType: raspberrypi3
+  supportedDeviceTypes:
+    - raspberrypi4-64
+    - fincm3
+    - raspberrypi3
+    - raspberrypi3-64
+    - raspberrypi400-64
