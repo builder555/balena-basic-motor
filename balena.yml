@@ -1,7 +1,6 @@
 name: basic-motor
 description: >-
   controls a physical pin with MQTT signals.
-  logo image by [naim](https://thenounproject.com/naim.solis/)
 version: 0.1.0
 type: sw.application
 assets:
