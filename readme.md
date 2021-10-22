@@ -59,3 +59,5 @@ Given the code
 Pin 10 will activate when a message with payload '1' is published under topic 'control'. It'll run for at most 10 seconds at a time.
 
 > N.B. mqtt connects to host 'mqtt' on port 1883
+
+_logo image by [naim](https://thenounproject.com/naim.solis/)_
